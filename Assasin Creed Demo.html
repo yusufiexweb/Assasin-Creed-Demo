@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#11100d">
+<meta name="description" content="Explore a cinematic Assassin's Creed Shadows experience by NOVA333X.">
+<title>NOVA333X | Assassin's Creed Shadows</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#11100d;--paper:#e9e3d5;--muted:#aaa598;--gold:#c9a96e;--red:#a43b31;--line:#ffffff24;--nav:78px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav);background:var(--ink)}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:Inter,sans-serif;overflow-x:hidden}
+body.loading{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:5px}
+::selection{background:var(--gold);color:var(--ink)}
+.grain{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+.loader{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:var(--ink);transition:opacity .7s ease,visibility .7s}
+.loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.loader-content{position:relative;display:grid;justify-items:center;gap:21px;text-align:center}
+.loader-lockup{display:flex;align-items:center;gap:24px}
+.loader-emblem{width:92px;height:104px;overflow:visible;color:var(--gold);filter:drop-shadow(0 0 18px #c9a96e38);transform-origin:center;animation:emblem-turn 4s ease-in-out infinite}
+.loader-emblem path{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.loader-brand{color:var(--paper);font:800 clamp(34px,6vw,54px)/1 "Barlow Condensed",sans-serif;letter-spacing:2px;white-space:nowrap}
+.loader-brand span,.brand-name span{color:var(--gold)}
+.loader-label{color:var(--muted);font-size:9px;letter-spacing:3px;text-transform:uppercase}
+.loader-track{width:min(360px,78vw);height:2px;background:#ffffff20;overflow:hidden}
+.loader-progress{width:0;height:100%;background:var(--gold);box-shadow:0 0 14px #c9a96e99;animation:loader-progress 1.9s cubic-bezier(.16,.6,.3,1) forwards}
+@keyframes emblem-turn{0%,100%{transform:perspective(500px) rotateY(-18deg) rotateZ(-4deg) scale(.95)}50%{transform:perspective(500px) rotateY(18deg) rotateZ(4deg) scale(1.05)}}
+@keyframes loader-progress{to{width:100%}}
+.game-cursor{position:fixed;top:0;left:0;z-index:1400;width:42px;height:42px;pointer-events:none;opacity:0;transform:translate3d(-100px,-100px,0);will-change:transform;transition:opacity .18s ease}
+.game-cursor svg{width:100%;height:100%;overflow:visible;color:var(--gold);filter:drop-shadow(0 0 5px #c9a96e66);transition:transform .18s ease,color .18s ease}
+.game-cursor path,.game-cursor circle{fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round}
+.game-cursor.is-hovering svg{color:#f3d89e;transform:scale(1.22)}
+.game-cursor.is-pressed svg{transform:scale(.84)}
+html.custom-cursor-ready,html.custom-cursor-ready body,html.custom-cursor-ready a,html.custom-cursor-ready button,html.custom-cursor-ready [role="button"]{cursor:none}
+html.custom-cursor-ready input,html.custom-cursor-ready textarea{cursor:text}
+.top-progress{position:fixed;inset:0 auto auto 0;z-index:90;width:100%;height:2px;transform:scaleX(0);transform-origin:left;background:var(--gold);will-change:transform}
+.nav{position:fixed;inset:0 0 auto;z-index:80;height:var(--nav);padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff14;background:#11100dcc;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.brand{display:flex;align-items:center;gap:15px;font:800 30px/1 "Barlow Condensed",sans-serif;letter-spacing:1.5px;white-space:nowrap;text-transform:uppercase}
+.brand-name{color:var(--paper)}
+.brand-project{padding-left:14px;border-left:1px solid var(--line);color:#e1dbcf;font:600 10px/1.35 "Barlow Condensed",sans-serif;letter-spacing:1.4px;text-transform:uppercase}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a,.nav-cta{font-size:9px;letter-spacing:1.6px;text-transform:uppercase}
+.nav-links a{color:#d6d0c4;transition:color .25s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{display:inline-flex;align-items:center;gap:9px;padding:12px 16px;border:1px solid #c9a96e75;background:#c9a96e0a;color:var(--paper);font:600 9px "Barlow Condensed",sans-serif;letter-spacing:1.6px;text-transform:uppercase;transition:background .25s,color .25s,border-color .25s}
+.nav-cta:hover{background:var(--gold);color:var(--ink)}
+.nav-cta svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5}
+.menu-toggle{display:none;border:0;background:none;color:var(--paper);font-size:22px}
+
+.account-overlay{position:fixed;inset:0;z-index:1200;display:flex;justify-content:flex-end;background:#050505b8;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .28s ease,visibility .28s ease}
+.account-overlay.open{opacity:1;visibility:visible}
+.account-panel{position:relative;width:min(100%,480px);height:100%;padding:clamp(25px,5vw,48px);overflow-y:auto;border-left:1px solid #c9a96e52;background:radial-gradient(ellipse at 90% 4%,#99734230,transparent 35%),linear-gradient(155deg,#191711,#0d0d0c 70%);box-shadow:-24px 0 90px #0009;transform:translate3d(35px,0,0);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.account-overlay.open .account-panel{transform:translate3d(0,0,0)}
+.account-panel:before,.account-panel:after{position:absolute;width:34px;height:34px;content:"";pointer-events:none}
+.account-panel:before{top:14px;left:14px;border-top:1px solid #c9a96e72;border-left:1px solid #c9a96e72}
+.account-panel:after{right:14px;bottom:14px;border-right:1px solid #c9a96e72;border-bottom:1px solid #c9a96e72}
+.account-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:42px}
+.account-kicker{color:var(--gold);font:600 9px "Barlow Condensed",sans-serif;letter-spacing:2.5px;text-transform:uppercase}
+.account-close{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--line);background:#ffffff08;color:var(--paper);font-size:22px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.account-close:hover{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+.account-identity{display:flex;align-items:center;gap:17px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.account-sigil{width:57px;height:65px;display:grid;place-items:center;border:1px solid #c9a96e5c;background:#c9a96e0b;clip-path:polygon(50% 0,95% 16%,89% 72%,50% 100%,11% 72%,5% 16%);color:var(--gold);font:700 29px "Barlow Condensed",sans-serif}
+.account-identity h2{margin:0 0 7px;font:700 36px/.95 "Barlow Condensed",sans-serif;letter-spacing:.5px;text-transform:uppercase}
+.account-identity p{margin:0;color:var(--muted);font-size:9px;letter-spacing:1.5px;text-transform:uppercase}
+.account-identity p span{color:#b4c878}
+.account-tabs{display:grid;grid-template-columns:1fr 1fr;margin:27px 0 23px;border-bottom:1px solid var(--line)}
+.account-tab{padding:13px 10px;border:0;border-bottom:2px solid transparent;background:none;color:var(--muted);font:600 10px "Barlow Condensed",sans-serif;letter-spacing:1.6px;text-transform:uppercase;cursor:pointer;transition:color .2s,border-color .2s}
+.account-tab[aria-pressed="true"]{border-bottom-color:var(--gold);color:var(--gold)}
+.account-form{display:grid;gap:17px}
+.account-form[hidden]{display:none}
+.account-field{display:grid;gap:8px}
+.account-field label{color:#ddd6c9;font:600 9px "Barlow Condensed",sans-serif;letter-spacing:1.5px;text-transform:uppercase}
+.account-field input{width:100%;min-height:47px;padding:12px 14px;border:1px solid #ffffff24;border-radius:0;background:#05050555;color:var(--paper);font:12px Inter,sans-serif;transition:border-color .2s,box-shadow .2s}
+.account-field input:focus{border-color:var(--gold);outline:0;box-shadow:0 0 0 2px #c9a96e26}
+.account-submit,.account-guest{min-height:48px;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px 15px;border:1px solid var(--gold);font:600 10px "Barlow Condensed",sans-serif;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s,transform .2s}
+.account-submit{background:var(--gold);color:var(--ink)}
+.account-submit:hover{background:#e2c58f;transform:translateY(-2px)}
+.account-guest{width:100%;margin-top:11px;background:transparent;color:var(--paper);border-color:#ffffff30}
+.account-guest:hover{border-color:var(--gold);color:var(--gold)}
+.account-status{padding:12px;border:1px solid #c9a96e57;background:#c9a96e0e;color:#e5d6b8;font-size:11px;line-height:1.7}
+.account-status:empty{display:none}
+.account-note{margin-top:23px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:10px;line-height:1.8}
+.account-note strong{color:var(--gold);font-weight:500}
+body.account-open{overflow:hidden}
+main{position:relative}
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;padding:calc(var(--nav) + 60px) 10% 12vh;isolation:isolate}
+.hero-film,.scene-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3;transform:scale(1.04);will-change:transform;filter:saturate(.77)}
+.hero-shade{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,#090908e8 0%,#09090898 42%,#09090813 100%),linear-gradient(0deg,#11100d 0%,transparent 42%),linear-gradient(180deg,#11100d88,transparent 30%)}
+.hero-sun{position:absolute;z-index:-1;width:min(34vw,420px);aspect-ratio:1;right:13%;top:19%;border-radius:50%;background:radial-gradient(circle at 35% 35%,#dfb778,#9b4333 66%,#68291f);opacity:.54;mix-blend-mode:screen;transform:translate3d(0,var(--sun-shift,0px),0);will-change:transform}
+.hero-copy{position:relative;max-width:780px;transform-style:preserve-3d}
+.hero-copy:before,.hero-copy:after{position:absolute;width:36px;height:36px;content:"";pointer-events:none}
+.hero-copy:before{top:-22px;left:-23px;border-top:1px solid #c9a96e89;border-left:1px solid #c9a96e89}
+.hero-copy:after{right:-22px;bottom:-14px;border-right:1px solid #c9a96e63;border-bottom:1px solid #c9a96e63}
+.hero-hud{position:absolute;top:calc(var(--nav) + 32px);right:6%;display:grid;gap:6px;padding-left:12px;border-left:1px solid #c9a96e75;color:#c9c2b5;font:500 8px/1.5 "Barlow Condensed",sans-serif;letter-spacing:1.7px;text-transform:uppercase}
+.hero-hud span:last-child{color:var(--gold)}
+.eyebrow{display:flex;align-items:center;gap:13px;color:var(--gold);font-size:9px;letter-spacing:4px;text-transform:uppercase}
+.eyebrow:before{content:"";width:34px;height:1px;background:var(--gold)}
+.hero h1{margin:24px 0 18px;font:700 clamp(80px,13vw,174px)/.76 "Barlow Condensed",sans-serif;letter-spacing:-.015em;text-transform:uppercase}
+.hero h1 span{display:block;color:transparent;-webkit-text-stroke:1px #e9e3d5b3;margin-left:12vw}
+.hero-intro{max-width:410px;color:#d4cfc5;font-size:12px;line-height:1.9}
+.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:24px;margin-top:27px}
+.action-link{display:inline-flex;align-items:center;gap:13px;padding:14px 18px;border:1px solid #c9a96e88;color:var(--paper);font-size:9px;letter-spacing:1.8px;text-transform:uppercase;transition:background .25s,color .25s,transform .25s}
+.action-link:hover{background:var(--gold);color:var(--ink);transform:translateY(-3px)}
+.text-link{color:#ddd5c5;font-size:9px;letter-spacing:1.6px;text-transform:uppercase}
+.text-link span{color:var(--gold);padding-left:7px}
+.hero-index{position:absolute;right:6%;bottom:12vh;display:flex;align-items:center;gap:12px;color:#d6d0c4;font-size:9px;letter-spacing:2px;writing-mode:vertical-rl}
+.hero-index:before{content:"";height:48px;width:1px;background:var(--gold)}
+.scroll-cue{position:absolute;bottom:32px;left:10%;display:flex;align-items:center;gap:12px;color:#c9c4b8;font-size:8px;letter-spacing:2px;text-transform:uppercase}
+.scroll-cue i{display:block;width:40px;height:1px;background:var(--gold);transform-origin:left;animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{50%{transform:scaleX(.4);opacity:.45}}
+.section{position:relative;padding:150px 10%;overflow:hidden}
+.section-label{display:flex;align-items:center;gap:12px;color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase}
+.section-label:before{content:"";width:28px;height:1px;background:var(--gold)}
+.section-heading{margin:18px 0 26px;font:600 clamp(48px,7vw,88px)/.92 "Barlow Condensed",sans-serif;letter-spacing:.015em;text-transform:uppercase}
+.section-heading em{font-weight:400;color:var(--gold)}
+.intro-section{min-height:90vh;display:grid;grid-template-columns:1fr .85fr;align-items:center;gap:9%;background:radial-gradient(ellipse at 75% 45%,#392d1d38,transparent 48%),var(--ink)}
+.intro-copy{max-width:520px}
+.intro-copy p,.world-copy p{color:#bbb6aa;font-size:13px;line-height:2}
+.intro-note{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:9px;letter-spacing:1.2px;text-transform:uppercase}
+.relic-wrap{position:relative;perspective:1000px;display:grid;place-items:center;min-height:480px}
+.relic{position:relative;width:min(30vw,340px);aspect-ratio:.77;transform-style:preserve-3d;will-change:transform;transition:transform .18s ease-out}
+.relic-back{position:absolute;inset:0;background:linear-gradient(145deg,#d2b988,#756344 42%,#29241b 75%);clip-path:polygon(50% 0,95% 16%,89% 72%,50% 100%,11% 72%,5% 16%);transform:translateZ(-22px) rotate(7deg);opacity:.56}
+.relic-face{position:absolute;inset:4%;display:grid;place-items:center;overflow:hidden;background:linear-gradient(155deg,#27251f,#10100e 72%);clip-path:polygon(50% 0,95% 16%,89% 72%,50% 100%,11% 72%,5% 16%);border:1px solid #cfb47d}
+.relic-face:before{content:"";position:absolute;inset:9%;border:1px solid #c9a96e6b;clip-path:polygon(50% 0,100% 20%,87% 76%,50% 100%,13% 76%,0 20%)}
+.relic-glyph{position:relative;color:#c9a96e;font:700 clamp(130px,21vw,250px)/1 "Barlow Condensed",sans-serif;text-shadow:0 0 70px #c9a96e42;transform:translateZ(55px)}
+.relic-caption{position:absolute;right:-34px;bottom:14%;writing-mode:vertical-rl;color:var(--muted);font-size:8px;letter-spacing:3px}
+.relic-orbit{position:absolute;width:115%;aspect-ratio:1;border:1px solid #c9a96e26;border-radius:50%;transform:rotateX(68deg);animation:orbit 20s linear infinite}
+.relic-orbit:after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:var(--gold);top:15%;left:18%;box-shadow:0 0 20px var(--gold)}
+@keyframes orbit{to{transform:rotateX(68deg) rotateZ(360deg)}}
+.world-section{min-height:115vh;padding:0;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;background:#171510}
+.world-media{position:relative;min-height:740px;overflow:hidden;isolation:isolate}
+.world-media:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#11100d88,transparent 55%),linear-gradient(90deg,transparent 70%,#171510)}
+.world-media .scene-film{filter:saturate(.72);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.world-media:hover .scene-film{transform:scale(1.09)}
+.media-stamp{position:absolute;z-index:1;left:10%;bottom:11%;display:grid;gap:6px;color:#fff}
+.media-stamp strong{font:600 38px "Barlow Condensed",sans-serif;letter-spacing:2px;text-transform:uppercase}
+.media-stamp span{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#ded6c8}
+.world-copy{align-self:center;max-width:580px;padding:100px 12% 100px 7%}
+.world-copy .section-heading{max-width:480px}
+.season-list{display:grid;grid-template-columns:repeat(3,1fr);margin-top:42px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.season{padding:18px 10px 18px 0}
+.season strong{display:block;color:var(--gold);font:700 27px "Barlow Condensed",sans-serif}
+.season span{color:var(--muted);font-size:8px;letter-spacing:1.2px;text-transform:uppercase}
+.duality-section{padding-top:160px;padding-bottom:170px;background:linear-gradient(180deg,#11100d,#1b1712 50%,#11100d)}
+.duality-head{max-width:780px;margin-bottom:62px}
+.duality-head p{max-width:490px;color:#b9b3a7;font-size:12px;line-height:1.9}
+.character-switch{display:flex;gap:10px;margin-bottom:22px}
+.character-switch button{padding:12px 18px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:color .25s,border-color .25s,background .25s}
+.character-switch button[aria-pressed="true"]{color:var(--ink);border-color:var(--gold);background:var(--gold)}
+.character-stage{position:relative;min-height:620px;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;border:1px solid #ffffff1a;background:#15130f;overflow:hidden;perspective:1200px}
+.character-visual{position:absolute;inset:0 38% 0 0;overflow:hidden;transform-style:preserve-3d}
+.character-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 40%,#15130f 100%),linear-gradient(0deg,#15130f66,transparent 50%)}
+.character-visual .scene-film{opacity:.82;transition:opacity .55s,transform 1s;filter:saturate(.7)}
+.character-stage[data-character="yasuke"] .character-visual .scene-film{transform:scale(1.08) translateX(-2%);filter:saturate(.58) sepia(.12)}
+.character-panel{position:relative;z-index:2;grid-column:2;padding:55px 9% 55px 0;transform:translateZ(30px)}
+.character-kicker{color:var(--gold);font-size:9px;letter-spacing:3px;text-transform:uppercase}
+.character-name{margin:13px 0 4px;font:700 clamp(60px,8vw,104px)/.9 "Barlow Condensed",sans-serif;letter-spacing:.02em;text-transform:uppercase}
+.character-role{color:#d3cbbb;font-size:9px;letter-spacing:2px;text-transform:uppercase}
+.character-bio{margin:25px 0;color:#bcb6aa;font-size:12px;line-height:2}
+.skill-list{display:flex;flex-wrap:wrap;gap:8px}
+.skill{padding:9px 11px;border:1px solid #ffffff26;color:#d6d0c4;font-size:8px;letter-spacing:1px;text-transform:uppercase}
+.character-index{margin-top:30px;color:var(--muted);font-size:8px;letter-spacing:2px}
+.character-watermark{position:absolute;z-index:1;left:6%;bottom:-12%;font:700 clamp(140px,25vw,340px)/1 "Barlow Condensed",sans-serif;color:#ffffff0b;pointer-events:none}
+.timeline-section{padding-top:145px;padding-bottom:160px;background:#e8e1d3;color:#171510}
+.timeline-section .section-label{color:#795d36}
+.timeline-section .section-label:before{background:#795d36}
+.timeline-section .section-heading em{color:#9e3d31}
+.timeline-intro{max-width:470px;margin-bottom:70px;color:#5e594f;font-size:12px;line-height:1.9}
+.timeline{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.timeline:before{content:"";position:absolute;left:0;right:0;top:10px;height:1px;background:#17151033}
+.timeline-fill{position:absolute;left:0;top:10px;width:0;height:1px;background:#a43b31;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.timeline.in-view .timeline-fill{width:100%}
+.chapter{position:relative;padding:38px 23px 0 0}
+.chapter:before{content:"";position:absolute;top:5px;left:0;width:11px;height:11px;border:2px solid #a43b31;border-radius:50%;background:#e8e1d3}
+.chapter small{color:#8d3c32;font-size:8px;letter-spacing:2px;text-transform:uppercase}
+.chapter h3{margin:14px 0 9px;font:600 29px "Barlow Condensed",sans-serif;text-transform:uppercase}
+.chapter p{max-width:230px;color:#625d52;font-size:10px;line-height:1.8}
+.closing-section{min-height:75vh;display:flex;align-items:center;justify-content:center;text-align:center;isolation:isolate}
+.closing-section:before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 50% 60%,#8d332b30,transparent 55%),linear-gradient(180deg,#11100d,#16130f)}
+.closing-inner{max-width:760px}
+.closing-inner .section-label{justify-content:center}
+.closing-inner .section-heading{font-size:clamp(54px,9vw,112px)}
+.closing-inner p{max-width:470px;margin:0 auto 30px;color:#b9b3a7;font-size:12px;line-height:1.9}
+footer{padding:45px 8%;background:#08090c;border-top:1px solid var(--line)}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:25px}
+.footer-brand p{max-width:510px;color:var(--muted);font-size:11px;line-height:1.8}
+.social-links{display:flex;align-items:center;gap:10px}
+.social-link{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:#ffffff05;color:#d4cfc5;transition:color .2s,border-color .2s,background .2s,transform .2s}
+.social-link:hover{transform:translateY(-3px);border-color:var(--gold);background:#c9a96e12;color:var(--gold)}
+.social-link svg{width:19px;height:19px;fill:currentColor}
+.social-link:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.copyright{width:100%;padding-top:22px;border-top:1px solid #ffffff14;color:#85858f;font-size:10px}
+.reveal{opacity:0;transform:translate3d(0,34px,0);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform}
+.reveal.visible{opacity:1;transform:translate3d(0,0,0)}
+.reveal-delay{transition-delay:.12s}
+@media(max-width:850px){
+:root{--nav:68px}
+.nav{padding:0 5%}
+.nav-links{gap:17px}
+.nav-links a{font-size:8px}
+.nav-cta{font-size:8px;padding:10px}
+.hero{padding-left:8%;padding-right:8%}
+.hero-index{right:4%}
+.intro-section{gap:3%;padding-left:8%;padding-right:8%}
+.world-section{grid-template-columns:1fr}
+.world-media{min-height:65vh}
+.world-media:after{background:linear-gradient(0deg,#171510,transparent 55%)}
+.world-copy{padding:85px 8%}
+.character-stage{min-height:560px;grid-template-columns:1fr .95fr}
+.character-visual{right:28%}
+.character-panel{padding-right:7%}
+}
+@media(max-width:600px){
+.nav{padding-right:4%;padding-left:4%}
+.brand{gap:9px;font-size:25px}
+.brand-project{padding-left:8px;font-size:8px;letter-spacing:1px}
+.nav-cta{margin-left:auto;margin-right:8px;padding:9px 10px;font-size:7px;letter-spacing:1px}
+.nav-cta svg{width:12px;height:12px}
+.nav-links{position:absolute;top:var(--nav);left:0;right:0;display:none;padding:17px 7% 24px;background:#11100df5;border-bottom:1px solid var(--line)}
+.nav-links.open{display:grid;grid-template-columns:1fr 1fr}
+.nav-links a{padding:12px 0;font-size:9px}
+.menu-toggle{display:block;padding:0;font-size:20px}
+.hero-hud{top:calc(var(--nav) + 20px);right:7%;font-size:7px}
+.account-panel{padding:30px 22px}
+.hero{min-height:93svh;padding:calc(var(--nav) + 75px) 7% 14vh}
+.hero-film{object-position:58% center}
+.hero-shade{background:linear-gradient(90deg,#090908d9,#0909085c 78%),linear-gradient(0deg,#11100d,transparent 60%),linear-gradient(180deg,#11100d7d,transparent 30%)}
+.hero-sun{width:60vw;right:2%;top:22%;opacity:.36}
+.hero h1{font-size:clamp(70px,17vw,105px)}
+.hero h1 span{margin-left:13vw}
+.hero-intro{max-width:350px;font-size:11px}
+.hero-index{display:none}
+.scroll-cue{left:7%}
+.section{padding:105px 7%}
+.intro-section{min-height:auto;grid-template-columns:1fr;padding-top:110px;padding-bottom:75px}
+.relic-wrap{min-height:390px}
+.relic{width:min(65vw,280px)}
+.relic-caption{right:0}
+.world-media{min-height:57vh}
+.world-copy{padding:75px 7%}
+.season{padding-right:5px}
+.season strong{font-size:23px}
+.season span{font-size:7px}
+.duality-section{padding-top:110px;padding-bottom:110px}
+.duality-head{margin-bottom:38px}
+.character-stage{min-height:710px;grid-template-columns:1fr;align-items:end}
+.character-visual{inset:0 0 31%}
+.character-visual:after{background:linear-gradient(0deg,#15130f 0%,transparent 75%),linear-gradient(90deg,#15130f20,transparent)}
+.character-panel{grid-column:1;padding:36px 8% 42px}
+.character-name{font-size:76px}
+.character-bio{margin:17px 0}
+.character-watermark{left:2%;bottom:34%;font-size:48vw}
+.timeline{grid-template-columns:1fr 1fr;row-gap:24px}
+.timeline:before,.timeline-fill{display:none}
+.chapter{padding:22px 15px 0 0;border-top:1px solid #17151036}
+.chapter:before{top:-6px}
+.timeline-intro{margin-bottom:44px}
+.closing-section{min-height:68vh}
+footer{padding:35px 7%}
+}
+@media(pointer:fine) and (prefers-reduced-motion:no-preference){
+html.custom-cursor-ready,html.custom-cursor-ready body,html.custom-cursor-ready a,html.custom-cursor-ready button,html.custom-cursor-ready [role="button"]{cursor:none}
+}
+@media(prefers-reduced-motion:reduce){
+*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+.reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="loading">
+<div class="loader" id="loader" aria-label="Loading NOVA333X Assassin's Creed Shadows">
+<div class="loader-content">
+<div class="loader-lockup">
+<svg class="loader-emblem" viewBox="0 0 100 112" role="img" aria-label="Assassin's Creed emblem">
+<path d="M50 5 41 22 32 28 17 26 24 41 10 49 30 55 38 70 45 60 50 105 55 60 62 70 70 55 90 49 76 41 83 26 68 28 59 22 50 5Z"/>
+<path d="M40 30 50 36 60 30M35 54 50 47 65 54"/>
+</svg>
+<a class="loader-brand" href="#home" aria-label="NOVA333X">NOVA<span>333</span>X</a>
+</div>
+<div class="loader-label">Entering the shadows</div>
+<div class="loader-track" aria-hidden="true"><div class="loader-progress"></div></div>
+</div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="game-cursor" id="gameCursor" aria-hidden="true">
+<svg viewBox="0 0 48 48">
+<path d="M24 2v8M24 38v8M2 24h8M38 24h8M8 8l6 6M34 34l6 6M40 8l-6 6M14 34l-6 6"/>
+<path d="m24 13 3.5 7.5L35 24l-7.5 3.5L24 35l-3.5-7.5L13 24l7.5-3.5L24 13Z"/>
+<circle cx="24" cy="24" r="2"/>
+</svg>
+</div>
+<div class="top-progress" id="topProgress" aria-hidden="true"></div>
+<header class="nav">
+<a class="brand" href="#home" aria-label="NOVA333X — Assassin's Creed Shadows home"><span class="brand-name">NOVA<span>333</span>X</span><span class="brand-project">Assassin's Creed<br>Shadows</span></a>
+<nav class="nav-links" id="navLinks" aria-label="Main navigation">
+<a href="#story">The story</a>
+<a href="#world">The world</a>
+<a href="#duality">Two paths</a>
+<a href="#chapters">Timeline</a>
+</nav>
+<button class="nav-cta" id="accountOpen" type="button" aria-haspopup="dialog" aria-controls="userPanel">
+<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="6" r="3.1"/><path d="M3.5 17c.4-3.2 2.7-5 6.5-5s6.1 1.8 6.5 5"/></svg>
+<span>Player access</span>
+</button>
+<button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+</header>
+
+<div class="account-overlay" id="userPanel" aria-hidden="true">
+<aside class="account-panel" role="dialog" aria-modal="true" aria-labelledby="accountTitle" tabindex="-1">
+<div class="account-top">
+<span class="account-kicker">Animus access · 01</span>
+<button class="account-close" id="accountClose" type="button" aria-label="Close player access">×</button>
+</div>
+<div class="account-identity">
+<div class="account-sigil" aria-hidden="true">N</div>
+<div>
+<h2 id="accountTitle">Operative profile</h2>
+<p><span>●</span> Guest operative · Offline</p>
+</div>
+</div>
+<div class="account-tabs" role="group" aria-label="Account action">
+<button class="account-tab" type="button" data-account-mode="signin" aria-pressed="true">Sign in</button>
+<button class="account-tab" type="button" data-account-mode="create" aria-pressed="false">Create profile</button>
+</div>
+<form class="account-form" id="signInForm">
+<div class="account-field">
+<label for="signInEmail">Email address</label>
+<input id="signInEmail" name="email" type="email" maxlength="254" autocomplete="username" required placeholder="operative@example.com">
+</div>
+<div class="account-field">
+<label for="signInPassword">Passphrase</label>
+<input id="signInPassword" name="password" type="password" autocomplete="current-password" minlength="8" maxlength="128" required placeholder="At least 8 characters">
+</div>
+<button class="account-submit" type="submit">Connect to the Animus <span aria-hidden="true">↗</span></button>
+</form>
+<form class="account-form" id="createProfileForm" hidden>
+<div class="account-field">
+<label for="profileName">Operative name</label>
+<input id="profileName" name="name" maxlength="100" autocomplete="nickname" required placeholder="Choose a codename">
+</div>
+<div class="account-field">
+<label for="profileEmail">Email address</label>
+<input id="profileEmail" name="email" type="email" maxlength="254" autocomplete="email" required placeholder="operative@example.com">
+</div>
+<div class="account-field">
+<label for="profilePassword">Passphrase</label>
+<input id="profilePassword" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="At least 8 characters">
+</div>
+<button class="account-submit" type="submit">Initialize profile <span aria-hidden="true">↗</span></button>
+</form>
+<div class="account-status" id="accountStatus" role="status" aria-live="polite"></div>
+<button class="account-guest" id="continueAsGuest" type="button">Continue as guest <span aria-hidden="true">→</span></button>
+<p class="account-note"><strong>Interface preview only.</strong> Connect an authentication service to enable accounts. Form entries are not sent or stored.</p>
+</aside>
+</div>
+
+<main>
+<section class="hero" id="home">
+<video class="hero-film" data-scene-video autoplay muted loop playsinline preload="auto" aria-hidden="true">
+<source src="Assasin Creed Short background.mp4" type="video/mp4">
+</video>
+<div class="hero-shade"></div>
+<div class="hero-sun" aria-hidden="true"></div>
+<div class="hero-copy">
+<div class="eyebrow">Japan · 1579 · A country divided</div>
+<h1>Assassin's<br><span>Shadows</span></h1>
+<p class="hero-intro">In a land on the edge of transformation, two lives converge. Move unseen as shinobi Naoe, or strike with the force of samurai Yasuke.</p>
+<div class="hero-actions">
+<a class="action-link" href="#story">Discover the story <span aria-hidden="true">↓</span></a>
+<a class="text-link" href="#duality">Meet the two protagonists <span aria-hidden="true">↗</span></a>
+</div>
+<div class="hero-hud" aria-hidden="true"><span>Animus link / 1579</span><span>Memory sequence · 02</span></div>
+</div>
+<div class="hero-index">A NEW ERA BEGINS</div>
+<a class="scroll-cue" href="#story"><i></i> Scroll to explore</a>
+</section>
+
+<section class="section intro-section" id="story">
+<div class="intro-copy reveal">
+<div class="section-label">01 / The story</div>
+<h2 class="section-heading">One country.<br><em>Two destinies.</em></h2>
+<p>Japan, late in the Sengoku period. As the country is pulled toward unification, the paths of Naoe, a shinobi from Iga, and Yasuke, an African samurai, cross amid a changing world.</p>
+<p>From hidden mountain villages to the heart of castle towns, their separate journeys reveal a story of loyalty, consequence, and the freedom to choose what comes next.</p>
+<div class="intro-note"><span>Two perspectives</span><span>One changing Japan</span></div>
+</div>
+<div class="relic-wrap reveal reveal-delay" aria-label="Interactive three-dimensional crest">
+<div class="relic-orbit" aria-hidden="true"></div>
+<div class="relic" id="relic" role="img" aria-label="A layered, rotating Japanese crest">
+<div class="relic-back"></div>
+<div class="relic-face"><span class="relic-glyph">N</span></div>
+</div>
+<div class="relic-caption">The path between light and shadow</div>
+</div>
+</section>
+
+<section class="world-section" id="world">
+<div class="world-media">
+<video class="scene-film" data-scene-video muted loop playsinline preload="none" aria-label="Assassin's Creed Shadows cinematic footage">
+<source src="Assassin's Creed Shadows_ Story Trailer.mp4" type="video/mp4">
+</video>
+<div class="media-stamp"><strong>Japan in transition</strong><span>A world that changes with you</span></div>
+</div>
+<div class="world-copy reveal">
+<div class="section-label">02 / A living world</div>
+<h2 class="section-heading">A world in<br><em>constant change.</em></h2>
+<p>Across central Japan, the seasons reshape the journey. Snow, rain, and shifting light transform familiar routes, while a changing landscape opens new ways to move, hide, and explore.</p>
+<p>From the bustle of castle towns to quiet mountain paths, every place holds another thread in a country being remade.</p>
+<div class="season-list" aria-label="The changing seasons">
+<div class="season"><strong>01</strong><span>Spring</span></div>
+<div class="season"><strong>02</strong><span>Summer</span></div>
+<div class="season"><strong>03</strong><span>Autumn</span></div>
+</div>
+</div>
+</section>
+
+<section class="section duality-section" id="duality">
+<div class="duality-head reveal">
+<div class="section-label">03 / Choose your approach</div>
+<h2 class="section-heading">Two ways to<br><em>change history.</em></h2>
+<p>Switch between the protagonists. Each brings a distinct point of view, a different rhythm, and a different way to face the world.</p>
+</div>
+<div class="character-switch reveal" role="group" aria-label="Choose a protagonist">
+<button type="button" data-character-choice="naoe" aria-pressed="true">Naoe · The shinobi</button>
+<button type="button" data-character-choice="yasuke" aria-pressed="false">Yasuke · The samurai</button>
+</div>
+<article class="character-stage reveal" id="characterStage" data-character="naoe" aria-live="polite">
+<div class="character-visual">
+<video class="scene-film" data-scene-video muted loop playsinline preload="none" aria-hidden="true">
+<source src="Assassin s Creed Shadows_ Official World Premiere Trailer.mp4" type="video/mp4">
+</video>
+</div>
+<div class="character-watermark" id="characterWatermark" aria-hidden="true">N</div>
+<div class="character-panel">
+<div class="character-kicker" id="characterKicker">The unseen blade</div>
+<h3 class="character-name" id="characterName">Naoe</h3>
+<div class="character-role" id="characterRole">Shinobi of Iga · Move unseen</div>
+<p class="character-bio" id="characterBio">A resourceful shinobi whose path is shaped by stealth, agility, and the shadows. Slip past danger, find a hidden route, and decide when the moment is right to strike.</p>
+<div class="skill-list" id="skillList"><span class="skill">Stealth</span><span class="skill">Agility</span><span class="skill">Precision</span></div>
+<div class="character-index" id="characterIndex">01 — THE SHINOBI</div>
+</div>
+</article>
+</section>
+
+<section class="section timeline-section" id="chapters">
+<div class="section-label reveal">04 / A turning point</div>
+<h2 class="section-heading reveal">History enters<br><em>a new chapter.</em></h2>
+<p class="timeline-intro reveal">Set in 1579, during the final decades of Japan's Sengoku period, the story unfolds amid upheaval and shifting alliances. These historical touchstones frame the world of the game.</p>
+<div class="timeline reveal" id="timeline">
+<div class="timeline-fill" aria-hidden="true"></div>
+<article class="chapter"><small>Before the story</small><h3>A divided land</h3><p>Regional powers compete for influence as decades of conflict reshape the country.</p></article>
+<article class="chapter"><small>1579</small><h3>Two paths cross</h3><p>In the world of the game, Naoe and Yasuke are drawn into a changing Japan.</p></article>
+<article class="chapter"><small>A shifting era</small><h3>Old orders tested</h3><p>New alliances and ambitions challenge the way power has always been held.</p></article>
+<article class="chapter"><small>The journey ahead</small><h3>Choose your way</h3><p>Move through the shadows—or meet the world head-on—and shape your own approach.</p></article>
+</div>
+</section>
+
+<section class="section closing-section">
+<div class="closing-inner reveal">
+<div class="section-label">The shadows are waiting</div>
+<h2 class="section-heading">Your path.<br><em>Your story.</em></h2>
+<p>Step into a richly imagined Japan and discover where two destinies meet.</p>
+<a class="action-link" href="#home">Return to the beginning <span aria-hidden="true">↑</span></a>
+</div>
+</section>
+</main>
+<footer>
+<div class="footer-inner">
+<div class="footer-brand">
+<a href="#home" class="brand" aria-label="NOVA333X — back to the beginning"><span class="brand-name">NOVA<span>333</span>X</span></a>
+<p>From Iga's hidden paths to the streets of Kyoto, Naoe and Yasuke carve their own destinies through a Japan on the brink of change. In a world of shifting shadows, every choice leaves its mark.</p>
+</div>
+<nav class="social-links" aria-label="Social profiles">
+<a class="social-link" href="https://github.com/yusufiexweb" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .9a11.2 11.2 0 0 0-3.54 21.83c.56.1.76-.24.76-.54v-2.1c-3.1.68-3.76-1.32-3.76-1.32-.5-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.73 1.16 1.73 1.16 1 .1.76.09 2.45 1.56.9.15 1.85-.1 2.45-.37.1-.72.4-1.2.72-1.48-2.48-.28-5.08-1.24-5.08-5.52 0-1.22.44-2.22 1.16-3-.12-.28-.5-1.43.1-2.97 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.6 0c2.13-1.45 3.08-1.15 3.08-1.15.6 1.54.22 2.69.1 2.97.72.78 1.16 1.78 1.16 3 0 4.3-2.6 5.23-5.1 5.5.4.35.76 1.03.76 2.08v3.08c0 .3.2.65.77.54A11.2 11.2 0 0 0 12 .9Z"/></svg>
+</a>
+<a class="social-link" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 3.4a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2ZM3.4 9h3.7v11.6H3.4V9Zm5.9 0h3.5v1.6h.05A3.85 3.85 0 0 1 16.3 8.7c3.8 0 4.5 2.5 4.5 5.7v6.2h-3.7v-5.5c0-1.3-.02-3-1.85-3-1.85 0-2.13 1.45-2.13 2.9v5.6H9.3V9Z"/></svg>
+</a>
+<a class="social-link" href="https://www.upwork.com" target="_blank" rel="noopener noreferrer" aria-label="Upwork profile">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.3 7.1c-1.95 0-3.42 1.22-4.18 3.12-.78-1.16-1.38-2.45-1.75-3.9H8.55v5.02c0 1.08-.88 1.96-1.96 1.96s-1.96-.88-1.96-1.96V6.32H1.95v5.02a4.64 4.64 0 0 0 8.98 1.62c.6.82 1.28 1.58 2.06 2.22l-1.4 6.5h2.75l1.07-4.95c.59.19 1.2.29 1.83.29 2.74 0 4.82-2.03 4.82-4.83 0-2.92-2.04-5.09-4.76-5.09Zm-.02 7.5c-.56 0-1.1-.14-1.62-.42l.48-2.23c.33-1.53.85-2.34 1.68-2.34.95 0 1.58 1 1.58 2.5 0 1.5-.83 2.49-2.12 2.49Z"/></svg>
+</a>
+</nav>
+<div class="copyright">An interactive fan-made tribute · Assassin's Creed and related marks belong to their respective owners.</div>
+</div>
+</footer>
+
+<script>
+const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const loader=document.getElementById("loader");
+const finishLoading=()=>{loader.classList.add("done");document.body.classList.remove("loading")};
+window.addEventListener("load",()=>setTimeout(finishLoading,450),{once:true});
+setTimeout(finishLoading,2600);
+
+const progress=document.getElementById("topProgress");
+const hero=document.querySelector(".hero");
+let scrollQueued=false;
+function updateScrollEffects(){
+const maxScroll=document.documentElement.scrollHeight-window.innerHeight;
+const amount=maxScroll>0?window.scrollY/maxScroll:0;
+progress.style.transform=`scaleX(${amount})`;
+if(hero&&!reducedMotion){
+hero.style.setProperty("--sun-shift",`${window.scrollY*.12}px`);
+hero.querySelector(".hero-film").style.transform=`scale(1.04) translate3d(0,${window.scrollY*.08}px,0)`;
+}
+scrollQueued=false;
+}
+window.addEventListener("scroll",()=>{if(!scrollQueued){scrollQueued=true;requestAnimationFrame(updateScrollEffects)}},{passive:true});
+updateScrollEffects();
+
+const revealObserver=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){entry.target.classList.add("visible");revealObserver.unobserve(entry.target)}
+});
+},{threshold:.14});
+document.querySelectorAll(".reveal").forEach(element=>revealObserver.observe(element));
+
+const videoObserver=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+const video=entry.target;
+if(entry.isIntersecting){const play=video.play();if(play)play.catch(()=>{})}
+else video.pause();
+});
+},{rootMargin:"120px 0px",threshold:.05});
+document.querySelectorAll("[data-scene-video]").forEach(video=>videoObserver.observe(video));
+
+const relic=document.getElementById("relic");
+const relicWrap=relic.parentElement;
+if(!reducedMotion){
+relicWrap.addEventListener("pointermove",event=>{
+const rect=relicWrap.getBoundingClientRect();
+const x=(event.clientX-rect.left)/rect.width-.5;
+const y=(event.clientY-rect.top)/rect.height-.5;
+relic.style.transform=`rotateY(${x*22}deg) rotateX(${-y*18}deg)`;
+});
+relicWrap.addEventListener("pointerleave",()=>{relic.style.transform="rotateY(0) rotateX(0)"});
+}
+
+const characters={
+naoe:{
+kicker:"The unseen blade",name:"Naoe",role:"Shinobi of Iga · Move unseen",
+bio:"A resourceful shinobi whose path is shaped by stealth, agility, and the shadows. Slip past danger, find a hidden route, and decide when the moment is right to strike.",
+skills:["Stealth","Agility","Precision"],index:"01 — THE SHINOBI",mark:"N"
+},
+yasuke:{
+kicker:"The unshakable force",name:"Yasuke",role:"Samurai · Meet the world head-on",
+bio:"A formidable samurai whose journey brings a new perspective to a country in turmoil. Face challenges with strength, discipline, and a resolve that cannot be ignored.",
+skills:["Strength","Discipline","Resolve"],index:"02 — THE SAMURAI",mark:"武"
+}
+};
+const stage=document.getElementById("characterStage");
+const choices=[...document.querySelectorAll("[data-character-choice]")];
+function chooseCharacter(key){
+const character=characters[key];
+stage.dataset.character=key;
+document.getElementById("characterKicker").textContent=character.kicker;
+document.getElementById("characterName").textContent=character.name;
+document.getElementById("characterRole").textContent=character.role;
+document.getElementById("characterBio").textContent=character.bio;
+document.getElementById("characterIndex").textContent=character.index;
+document.getElementById("characterWatermark").textContent=character.mark;
+const skillList=document.getElementById("skillList");
+const skillTags=character.skills.map(skill=>{
+const tag=document.createElement("span");
+tag.className="skill";
+tag.textContent=skill;
+return tag;
+});
+skillList.replaceChildren(...skillTags);
+choices.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.characterChoice===key)));
+}
+choices.forEach(button=>button.addEventListener("click",()=>chooseCharacter(button.dataset.characterChoice)));
+
+const timelineObserver=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("in-view");timelineObserver.unobserve(entry.target)}});
+},{threshold:.3});
+timelineObserver.observe(document.getElementById("timeline"));
+
+const accountOverlay=document.getElementById("userPanel");
+const accountPanel=accountOverlay.querySelector(".account-panel");
+const accountOpenButton=document.getElementById("accountOpen");
+const accountCloseButton=document.getElementById("accountClose");
+const accountStatus=document.getElementById("accountStatus");
+let accountReturnFocus=null;
+function openAccountPanel(){
+accountReturnFocus=document.activeElement;
+accountOverlay.classList.add("open");
+accountOverlay.setAttribute("aria-hidden","false");
+document.body.classList.add("account-open");
+if(navLinks.classList.contains("open")){
+navLinks.classList.remove("open");
+menuToggle.setAttribute("aria-expanded","false");
+menuToggle.setAttribute("aria-label","Open navigation");
+menuToggle.textContent="☰";
+}
+setTimeout(()=>accountPanel.querySelector(".account-form:not([hidden]) input").focus(),0);
+}
+function closeAccountPanel(){
+accountOverlay.classList.remove("open");
+accountOverlay.setAttribute("aria-hidden","true");
+document.body.classList.remove("account-open");
+accountStatus.textContent="";
+accountReturnFocus?.focus();
+}
+accountOpenButton.addEventListener("click",openAccountPanel);
+accountCloseButton.addEventListener("click",closeAccountPanel);
+document.getElementById("continueAsGuest").addEventListener("click",closeAccountPanel);
+accountOverlay.addEventListener("click",event=>{
+if(event.target===accountOverlay)closeAccountPanel();
+});
+
+const accountTabs=[...document.querySelectorAll("[data-account-mode]")];
+const signInForm=document.getElementById("signInForm");
+const createProfileForm=document.getElementById("createProfileForm");
+accountTabs.forEach(tab=>tab.addEventListener("click",()=>{
+const creating=tab.dataset.accountMode==="create";
+signInForm.hidden=creating;
+createProfileForm.hidden=!creating;
+accountTabs.forEach(item=>item.setAttribute("aria-pressed",String(item===tab)));
+accountStatus.textContent="";
+(creating?createProfileForm:signInForm).querySelector("input").focus();
+}));
+function normalizeAccountForm(form){
+form.querySelectorAll('input:not([type="password"])').forEach(input=>{
+input.value=input.value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,"").trim();
+});
+if(!form.reportValidity())return false;
+return true;
+}
+
+[signInForm,createProfileForm].forEach(form=>form.addEventListener("submit",event=>{
+event.preventDefault();
+if(!normalizeAccountForm(form))return;
+accountStatus.textContent="This is a visual preview. Connect an authentication service to enable a real account; no form details were sent or saved.";
+}));
+
+document.addEventListener("keydown",event=>{
+if(event.key==="Escape"&&accountOverlay.classList.contains("open")){
+closeAccountPanel();
+return;
+}
+if(event.key==="Tab"&&accountOverlay.classList.contains("open")){
+const focusable=[...accountPanel.querySelectorAll("button:not([disabled]),input:not([disabled])")]
+.filter(element=>!element.closest("[hidden]"));
+const first=focusable[0];
+const last=focusable[focusable.length-1];
+if(event.shiftKey&&document.activeElement===first){
+event.preventDefault();
+last.focus();
+}else if(!event.shiftKey&&document.activeElement===last){
+event.preventDefault();
+first.focus();
+}
+}
+});
+
+const gameCursor=document.getElementById("gameCursor");
+if(window.matchMedia("(hover: hover) and (pointer: fine)").matches&&!reducedMotion){
+document.documentElement.classList.add("custom-cursor-ready");
+window.addEventListener("pointermove",event=>{
+gameCursor.style.transform=`translate3d(${event.clientX-21}px,${event.clientY-21}px,0)`;
+gameCursor.style.opacity=event.target.closest("input,textarea,select")?"0":"1";
+},{passive:true});
+window.addEventListener("pointerleave",()=>{gameCursor.style.opacity="0"});
+document.addEventListener("pointerover",event=>{
+gameCursor.classList.toggle("is-hovering",Boolean(event.target.closest("a,button,[role='button'],.relic")));
+});
+document.addEventListener("pointerdown",()=>gameCursor.classList.add("is-pressed"));
+document.addEventListener("pointerup",()=>gameCursor.classList.remove("is-pressed"));
+}
+
+const menuToggle=document.getElementById("menuToggle");
+const navLinks=document.getElementById("navLinks");
+menuToggle.addEventListener("click",()=>{
+const open=navLinks.classList.toggle("open");
+menuToggle.setAttribute("aria-expanded",String(open));
+menuToggle.setAttribute("aria-label",open?"Close navigation":"Open navigation");
+menuToggle.textContent=open?"×":"☰";
+});
+navLinks.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{
+navLinks.classList.remove("open");
+menuToggle.setAttribute("aria-expanded","false");
+menuToggle.setAttribute("aria-label","Open navigation");
+menuToggle.textContent="☰";
+}));
+</script>
+</body>
+</html>
